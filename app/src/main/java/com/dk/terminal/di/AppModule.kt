@@ -1,7 +1,7 @@
 package com.dk.terminal.di
 
 import com.dk.terminal.data.TerminalRepositoryImpl
-import com.dk.terminal.data.retofit.ApiService
+import com.dk.terminal.data.retrofit.ApiService
 import com.dk.terminal.domain.LoadBarsUseCase
 import com.dk.terminal.domain.TerminalRepository
 import com.dk.terminal.utils.Consts.BASE_URL
