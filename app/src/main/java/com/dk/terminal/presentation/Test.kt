@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -20,7 +20,7 @@ fun Test(modifier: Modifier = Modifier) {
     var testData by rememberSaveable(
         saver = TestData.saver
     ) {
-        mutableStateOf(TestData(0))
+        mutableStateOf(TestData(0, "Test"))
 
     }
     Box(
@@ -33,14 +33,21 @@ fun Test(modifier: Modifier = Modifier) {
     }
 }
 
-data class TestData(val number: Int) {
+data class TestData(val number: Int, val text: String) {
     companion object {
-        val saver = Saver<MutableState<TestData>, Int>(
+        val saver = listSaver<MutableState<TestData>, Any>(
             save = {
-                it.value.number
+                val number = it.value.number
+                val text = it.value.text
+                listOf(number, text)
             },
             restore = {
-                mutableStateOf(TestData(it))
+                mutableStateOf(
+                    TestData(
+                        number = it[0] as Int,
+                        text = it[1] as String
+                    )
+                )
             }
         )
     }
